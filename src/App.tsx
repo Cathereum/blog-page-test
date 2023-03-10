@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { AppRouter } from "./components/AppRouter";
+import { Header } from "./components/Header";
 
-function App() {
+type AuthContextProps = {
+  isAuth: boolean;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const AuthContext = createContext<AuthContextProps>({
+  isAuth: false,
+  setIsAuth: () => {},
+});
+const App = () => {
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+      <BrowserRouter>
+        <Header />
+        <AppRouter />
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
-}
+};
 
 export default App;
